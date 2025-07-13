@@ -1,7 +1,10 @@
 // utils/helpers.js
+import { Snackbar } from './snackbar.js';
+
+const snackbar = new Snackbar();
 
 export function mostrarError(mensaje) {
-  alert(mensaje);
+  snackbar.error(mensaje);
 }
 
 export function formatearPalabra(palabra) {

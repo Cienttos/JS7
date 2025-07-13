@@ -1,57 +1,124 @@
-// Importamos funciones para hacer peticiones, mostrar errores y manejar el timer
 import { apiFetch } from "../services/api.js";
 import { mostrarError } from "../utils/helpers.js";
 import { Timer } from "../utils/timer.js";
+import { Snackbar } from "../utils/snackbar.js";
 
-let timerInstance = null;  // Variable para guardar la instancia del timer
+const snackbar = new Snackbar();
 
-// Función que muestra la vista del juego y maneja la lógica de jugadas y finalización
+let timerInstance = null;
+
 export function renderGameView({ app, game, user, onGameEnd }) {
-  let tiempoSegundos = 0;  // Contador de tiempo en segundos
+  let tiempoSegundos = 0;
+  let juegoTerminado = false;
 
-  // Armamos el HTML que muestra el estado actual del juego
+  const getFrameImagePath = (intentos) => {
+    const frameNumber = 7 - intentos;
+    return `../img/f${frameNumber}.jpeg`;
+  };
+
+  const actualizarVista = (data) => {
+    const jugadaInput = document.getElementById("inputJugada");
+    const btnEnviar = document.getElementById("btnEnviar");
+
+    game.palabraOculta = data.palabra_oculta.split("").join(" ");
+    game.intentos = data.intentos;
+    game.letrasIncorrectas = data.letras_incorrectas || [];
+    game.score = typeof data.score === "number" ? data.score : game.score;
+
+    document.getElementById("palabraOculta").textContent = game.palabraOculta;
+    document.getElementById("letrasIncorrectas").textContent = game.letrasIncorrectas.join(", ");
+    document.getElementById("score").textContent = game.score;
+    document.getElementById("intentos").textContent = game.intentos;
+    document.getElementById("ahorcadoImg").src = getFrameImagePath(game.intentos);
+
+    // Si pierde
+    if (game.intentos === 0) {
+      jugadaInput.disabled = true;
+      btnEnviar.textContent = "Volver a jugar";
+      juegoTerminado = true;
+      snackbar.error("¡Perdiste! Intenta de nuevo.");
+      return;
+    }
+
+    // Si gana
+    if (data.scores) {
+      timerInstance.stop();
+      jugadaInput.disabled = true;
+      btnEnviar.textContent = "Volver a jugar";
+      juegoTerminado = true;
+      snackbar.success("¡Ganaste! 🎉 Excelente trabajo.");
+    }
+  };
+
   app.innerHTML = `
-    <h3>Juego Ahorcado</h3>
-    <p><b>Palabra:</b> <span id="palabraOculta">${game.palabraOculta}</span></p>
-    <p><b>Intentos:</b> <span id="intentos">${game.intentos}</span></p>
-    <p><b>Letras incorrectas:</b> <span id="letrasIncorrectas">${game.letrasIncorrectas.join(", ")}</span></p>
-    <p><b>Tiempo:</b> <span id="cronometro">0 s</span></p>
-    <p><b>Score:</b> <span id="score">${game.score}</span></p>
-    <input type="text" id="inputJugada" placeholder="Ingresa letra o palabra" />
-    <button id="btnEnviar">Enviar</button>
-    <button id="btnFinalizar">Finalizar Juego</button>
-    <p id="mensaje"></p>
+    <div class="game-container">
+      <div class="game-header">
+        <div class="game-header-item">
+          <div>Cronometro</div>
+          <div id="cronometro">0 s</div>
+        </div>
+        <div class="game-header-item">
+          <div>Aciertos</div>
+          <div id="score">${game.score}</div>
+        </div>
+        <div class="game-header-item">
+          <div>Intentos</div>
+          <div id="intentos">${game.intentos}</div>
+        </div>
+        <div class="game-header-item">
+          <div>Letras incorrectas</div>
+          <div id="letrasIncorrectas">${game.letrasIncorrectas.join(", ")}</div>
+        </div>
+      </div>
+
+      <div class="player-name">${user.name}</div>
+
+      <div class="game-image-container">
+        <img id="ahorcadoImg" src="${getFrameImagePath(game.intentos)}" alt="Ahorcado" />
+      </div>
+
+      <p id="palabraOculta" class="word-display">${game.palabraOculta}</p>
+
+      <input type="text" id="inputJugada" class="game-input" placeholder="Ingresa letra o palabra" />
+
+      <div class="button-group">
+        <button id="btnEnviar">Probar</button>
+        <button id="btnFinalizar">Abandonar</button>
+      </div>
+    </div>
   `;
 
-  // Si ya había un timer funcionando, lo detenemos para reiniciarlo
   if (timerInstance) timerInstance.stop();
 
-  // Creamos una nueva instancia del timer, que actualiza el cronómetro en pantalla
   timerInstance = new Timer((segundos) => {
     tiempoSegundos = segundos;
     document.getElementById("cronometro").textContent = `${segundos} s`;
   });
-  timerInstance.start(); // Iniciamos el timer
+  timerInstance.start();
 
-  // Evento para cuando el jugador envía una jugada (letra o palabra)
   document.getElementById("btnEnviar").onclick = async () => {
     const jugadaInput = document.getElementById("inputJugada");
+
+    // Si el juego terminó, volver al menú
+    if (juegoTerminado) {
+      onGameEnd();
+      return;
+    }
+
     const jugada = jugadaInput.value.trim().toLowerCase();
 
-    // Validaciones simples: que no esté vacío y que sea 1 letra o palabra completa
     if (!jugada) {
-      alert("Ingresa algo");
+      snackbar.error("Ingresa algo");
       return;
     }
 
     const palabraOriginal = game.palabraOculta.replace(/ /g, "");
     if (jugada.length !== 1 && jugada.length !== palabraOriginal.length) {
-      alert("Ingresa 1 letra o la palabra completa");
+      snackbar.error("Ingresa 1 letra o la palabra completa");
       return;
     }
 
     try {
-      // Enviamos la jugada a la API junto con el tiempo transcurrido
       const res = await apiFetch(
         "/game/validate-word",
         "POST",
@@ -62,26 +129,12 @@ export function renderGameView({ app, game, user, onGameEnd }) {
       const data = await res.json();
 
       if (res.ok) {
-        // Actualizamos el estado del juego con los datos recibidos
-        game.palabraOculta = data.palabra_oculta.split("").join(" ");
-        game.intentos = data.intentos;
-        game.letrasIncorrectas = data.letras_incorrectas || [];
-        game.score = typeof data.score === "number" ? data.score : game.score;
+        actualizarVista(data);
+        jugadaInput.value = "";
+        jugadaInput.focus();
 
-        // Actualizamos la vista con el nuevo estado
-        document.getElementById("palabraOculta").textContent = game.palabraOculta;
-        document.getElementById("intentos").textContent = game.intentos;
-        document.getElementById("letrasIncorrectas").textContent = game.letrasIncorrectas.join(", ");
-        document.getElementById("score").textContent = game.score;
-        document.getElementById("mensaje").textContent = data.mensaje || "";
-
-        jugadaInput.value = ""; // Limpiamos el input
-
-        // Si el juego terminó (la API devuelve scores), detenemos el timer y avisamos
-        if (data.scores) {
-          timerInstance.stop();
-          alert("Juego terminado");
-          onGameEnd(); // Llamamos a la función para terminar el juego (volver al menú)
+        if (data.mensaje && data.mensaje.toLowerCase().includes("acertaste")) {
+          snackbar.success(data.mensaje);
         }
       } else {
         mostrarError(data.error || "Error en jugada");
@@ -91,10 +144,8 @@ export function renderGameView({ app, game, user, onGameEnd }) {
     }
   };
 
-  // Evento para cuando el jugador decide finalizar el juego manualmente
   document.getElementById("btnFinalizar").onclick = async () => {
     try {
-      // Enviamos la solicitud para finalizar el juego con el tiempo actual
       const res = await apiFetch(
         "/game/finalize",
         "POST",
@@ -105,9 +156,9 @@ export function renderGameView({ app, game, user, onGameEnd }) {
       const data = await res.json();
 
       if (res.ok) {
-        timerInstance.stop(); // Detenemos el timer
-        alert("Juego finalizado. Score: " + data.score);
-        onGameEnd(); // Volvemos al menú
+        timerInstance.stop();
+        snackbar.success("Juego finalizado. Score: " + data.score);
+        onGameEnd();
       } else {
         mostrarError(data.error || "Error al finalizar");
       }

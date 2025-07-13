@@ -9,10 +9,10 @@ export function renderMenuView({ app, user, scores, currentGame, onLogout, onPla
     <h2>Bienvenido${user.name ? ", " + user.name : ""}</h2>  <!-- Saludo con el nombre si existe -->
     <h3>Tabla de Scores</h3>
     ${scores.length === 0 ? `<p>No hay scores disponibles</p>` : renderScoreboard(scores)}  <!-- Tabla o mensaje -->
-    <div>
-      <button id="btnJugar">Jugar Ahora</button>       <!-- Botón para comenzar a jugar -->
-      <button id="btnCerrarSesion">Cerrar Sesión</button>  <!-- Botón para cerrar sesión -->
-    </div>
+    <div class="button-group">
+  <button id="btnJugar">Jugar Ahora</button>
+  <button id="btnCerrarSesion">Cerrar Sesión</button>
+</div>
   `;
 
   // Asignamos las funciones que se ejecutan al hacer clic en los botones

@@ -52,18 +52,22 @@ async function render() {
 // Muestra la pantalla de bienvenida con opciones para login o registro
 function renderLoginRegister() {
   app.innerHTML = `
-    <h2>Bienvenido, por favor Inicia sesión o Regístrate</h2>
-    <div>
-      <button id="btnShowLogin">Iniciar sesión</button>
-      <button id="btnShowRegister">Registrarse</button>
+    <div class="welcome-box">
+      <h1>✏️ ¡AhorcadoTime!</h1>
+      <p><strong>Reglas:</strong> Tenés que adivinar la palabra antes de que se te acaben los intentos. Podés ingresar letras o toda la palabra. ¡Tu puntaje dependerá de los aciertos y el tiempo!</p>
+      <p><em>Iniciá sesión o registrate para comenzar a jugar.</em></p>
+      <div class="button-group">
+        <button class="btn" id="btnShowLogin">Iniciar sesión</button>
+        <button class="btn" id="btnShowRegister">Registrarse</button>
+      </div>
     </div>
     <div id="formContainer"></div>
   `;
 
-  // Botones que llaman a las vistas correspondientes al hacer clic
   document.getElementById("btnShowLogin").onclick = () => renderLoginView();
   document.getElementById("btnShowRegister").onclick = () => renderRegisterView();
 }
+
 
 // Muestra el menú principal y prepara un nuevo juego
 async function renderMenu() {
