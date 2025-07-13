@@ -4,7 +4,6 @@ import { Timer } from "../utils/timer.js";
 import { Snackbar } from "../utils/snackbar.js";
 
 const snackbar = new Snackbar();
-
 let timerInstance = null;
 
 export function renderGameView({ app, game, user, onGameEnd }) {
@@ -34,9 +33,10 @@ export function renderGameView({ app, game, user, onGameEnd }) {
     // Si pierde
     if (game.intentos === 0) {
       jugadaInput.disabled = true;
-      btnEnviar.textContent = "Volver a jugar";
+      btnEnviar.disabled = true;
+      btnEnviar.style.display = "none"; // 👈 Ocultar botón "Probar"
       juegoTerminado = true;
-      snackbar.error("¡Perdiste! Intenta de nuevo.");
+      snackbar.error("¡Perdiste! No te quedan intentos.");
       return;
     }
 
@@ -44,7 +44,7 @@ export function renderGameView({ app, game, user, onGameEnd }) {
     if (data.scores) {
       timerInstance.stop();
       jugadaInput.disabled = true;
-      btnEnviar.textContent = "Volver a jugar";
+      btnEnviar.disabled = true;
       juegoTerminado = true;
       snackbar.success("¡Ganaste! 🎉 Excelente trabajo.");
     }
@@ -54,7 +54,7 @@ export function renderGameView({ app, game, user, onGameEnd }) {
     <div class="game-container">
       <div class="game-header">
         <div class="game-header-item">
-          <div>Cronometro</div>
+          <div>Cronómetro</div>
           <div id="cronometro">0 s</div>
         </div>
         <div class="game-header-item">
@@ -98,23 +98,26 @@ export function renderGameView({ app, game, user, onGameEnd }) {
 
   document.getElementById("btnEnviar").onclick = async () => {
     const jugadaInput = document.getElementById("inputJugada");
+    const btnEnviar = document.getElementById("btnEnviar");
 
-    // Si el juego terminó, volver al menú
-    if (juegoTerminado) {
-      onGameEnd();
-      return;
-    }
+    if (juegoTerminado) return;
 
     const jugada = jugadaInput.value.trim().toLowerCase();
 
     if (!jugada) {
-      snackbar.error("Ingresa algo");
+      snackbar.error("Debes ingresar una letra o palabra.");
       return;
     }
 
     const palabraOriginal = game.palabraOculta.replace(/ /g, "");
+
     if (jugada.length !== 1 && jugada.length !== palabraOriginal.length) {
-      snackbar.error("Ingresa 1 letra o la palabra completa");
+      snackbar.error("Ingresa 1 sola letra o la palabra completa.");
+      return;
+    }
+
+    if (jugada.length === 1 && (game.letrasIncorrectas.includes(jugada) || game.palabraOculta.includes(jugada))) {
+      snackbar.warning("Ya probaste esa letra.");
       return;
     }
 
@@ -133,18 +136,30 @@ export function renderGameView({ app, game, user, onGameEnd }) {
         jugadaInput.value = "";
         jugadaInput.focus();
 
-        if (data.mensaje && data.mensaje.toLowerCase().includes("acertaste")) {
-          snackbar.success(data.mensaje);
+        if (data.mensaje) {
+          if (data.mensaje.toLowerCase().includes("acertaste")) {
+            snackbar.success(data.mensaje);
+          } else {
+            snackbar.info(data.mensaje);
+          }
         }
       } else {
-        mostrarError(data.error || "Error en jugada");
+        snackbar.error(data.error || "Error en la jugada.");
       }
     } catch {
-      mostrarError("Error de conexión");
+      snackbar.error("Error de conexión con el servidor.");
     }
   };
 
   document.getElementById("btnFinalizar").onclick = async () => {
+    // 👇 Si el juego ya terminó (por derrota), no llamar a la API
+    if (game.intentos === 0 || juegoTerminado) {
+      timerInstance.stop();
+      snackbar.info("Saliendo del juego...");
+      onGameEnd();
+      return;
+    }
+
     try {
       const res = await apiFetch(
         "/game/finalize",
@@ -160,10 +175,10 @@ export function renderGameView({ app, game, user, onGameEnd }) {
         snackbar.success("Juego finalizado. Score: " + data.score);
         onGameEnd();
       } else {
-        mostrarError(data.error || "Error al finalizar");
+        snackbar.error(data.error || "Error al finalizar el juego.");
       }
     } catch {
-      mostrarError("Error de conexión");
+      snackbar.error("Error de conexión con el servidor.");
     }
   };
 }
