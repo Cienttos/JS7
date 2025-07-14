@@ -244,57 +244,58 @@ table th, table td {
 }
 
 /* ======================= */
-/* ESTILOS RESPONSIVOS */
+/* ESTILOS RESPONSIVOS PARA CELULAR */
 /* ======================= */
 @media (max-width: 600px) {
   html, body {
     padding: 0.5rem;
     overflow: auto;
+    font-size: 22px;
   }
 
   #app, #welcome {
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  h2, h3 {
+    padding: 1.5rem;
     font-size: 1.3rem;
   }
 
+  h1 {
+    font-size: 2.6rem;
+  }
+
+  h2, h3 {
+    font-size: 2rem;
+  }
+
   p {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .btn, button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
+    font-size: 1.6rem;
+    padding: 1rem 2rem;
   }
 
   input {
-    font-size: 0.95rem;
-    padding: 0.5rem;
+    font-size: 1.5rem;
+    padding: 0.8rem;
   }
 
   .game-image-container {
-    height: 160px;
+    height: 220px;
     width: 100%;
   }
 
   .player-name {
-    font-size: 1.4rem;
+    font-size: 2.4rem;
   }
 
   .word-display {
-    font-size: 1.5rem;
-    letter-spacing: 0.2rem;
+    font-size: 2.6rem;
+    letter-spacing: 0.3rem;
   }
 
   table {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
 
   .game-header {
@@ -302,6 +303,15 @@ table th, table td {
   }
 
   .game-header-item {
-    min-width: 70px;
+    min-width: 80px;
+    font-size: 1.2rem;
+  }
+
+  #cronometro {
+    font-size: 1.5rem;
+  }
+
+  #mensaje {
+    font-size: 1.4rem;
   }
 }
