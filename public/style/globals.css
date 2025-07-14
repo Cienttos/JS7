@@ -10,22 +10,23 @@ html, body {
   background-image:
     linear-gradient(to right, #d0d0d0 1px, transparent 1px),
     linear-gradient(to bottom, #d0d0d0 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-size: 2rem 2rem;
   color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
+  font-size: 18px;
 }
 
 #app, #welcome {
-  max-width: 700px;
+  max-width: 50rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 1rem rgba(0,0,0,0.1);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 1rem;
   transition: all 0.4s ease;
   opacity: 1;
   box-sizing: border-box;
@@ -42,7 +43,7 @@ html, body {
 }
 
 h1 {
-  font-size: 2.2rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
   color: #2c2c2c;
   text-shadow: 1px 1px #ccc;
@@ -51,22 +52,23 @@ h1 {
 h2, h3 {
   text-align: center;
   margin-bottom: 1rem;
+  font-size: 2rem;
 }
 
 p {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   margin: 0;
 }
 
 .btn, button {
   font-family: inherit;
-  font-size: 1.1rem;
-  padding: 0.7rem 1.4rem;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
   background: #fff3cd;
   color: #333;
   border: 2px solid #ffa500;
-  border-radius: 12px;
+  border-radius: 1rem;
   box-shadow:
     2px 2px 0 #000,
     -1px -1px 0 #000;
@@ -89,15 +91,15 @@ p {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 input {
   font-family: inherit;
-  font-size: 1rem;
-  padding: 0.6rem;
+  font-size: 1.5rem;
+  padding: 0.8rem;
   border: 2px solid #999;
-  border-radius: 6px;
+  border-radius: 0.5rem;
   background-color: #fff;
   box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
   box-sizing: border-box;
@@ -106,15 +108,15 @@ input {
 form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
   margin: 0;
   box-sizing: border-box;
 }
 
 #formContainer {
-  height: 320px;
-  min-height: 280px;
-  max-height: 400px;
+  height: 20rem;
+  min-height: 18rem;
+  max-height: 25rem;
   opacity: 1;
   transition: opacity 0.3s ease, transform 0.4s ease;
   position: relative;
@@ -132,10 +134,10 @@ form {
 }
 
 .table-scroll {
-  max-height: 300px;
+  max-height: 20rem;
   overflow-y: auto;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   position: relative;
 }
 
@@ -143,11 +145,12 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-family: inherit;
+  font-size: 1.2rem;
 }
 
 table th, table td {
   border: 1px solid #aaa;
-  padding: 0.6rem;
+  padding: 0.8rem;
   text-align: center;
   background-color: #fdfdfd;
   user-select: none;
@@ -156,6 +159,7 @@ table th, table td {
 #cronometro {
   font-weight: bold;
   color: #0077cc;
+  font-size: 1.5rem;
 }
 
 #mensaje {
@@ -163,13 +167,14 @@ table th, table td {
   font-style: italic;
   text-align: center;
   user-select: none;
+  font-size: 1.3rem;
 }
 
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .game-header {
@@ -183,9 +188,10 @@ table th, table td {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 90px;
+  min-width: 6rem;
   font-weight: normal;
   color: #444;
+  font-size: 1.2rem;
 }
 
 .game-header-item div:first-child {
@@ -195,7 +201,7 @@ table th, table td {
 }
 
 .player-name {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: bold;
   margin: 1rem 0 0.5rem 0;
   color: #222;
@@ -204,8 +210,8 @@ table th, table td {
 }
 
 .game-image-container {
-  height: 200px;
-  width: 300px;
+  height: 14rem;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -229,7 +235,7 @@ table th, table td {
 }
 
 .word-display {
-  font-size: 2rem;
+  font-size: 2.5rem;
   letter-spacing: 0.4rem;
   font-weight: bold;
   text-align: center;
@@ -239,79 +245,8 @@ table th, table td {
 
 .game-input {
   width: 100%;
-  max-width: 300px;
+  max-width: 20rem;
   box-sizing: border-box;
-}
-
-/* ======================= */
-/* ESTILOS RESPONSIVOS PARA CELULAR */
-/* ======================= */
-@media (max-width: 600px) {
-  html, body {
-    padding: 0.5rem;
-    overflow: auto;
-    font-size: 22px;
-  }
-
-  #app, #welcome {
-    padding: 1.5rem;
-    font-size: 1.3rem;
-  }
-
-  h1 {
-    font-size: 2.6rem;
-  }
-
-  h2, h3 {
-    font-size: 2rem;
-  }
-
-  p {
-    font-size: 1.5rem;
-  }
-
-  .btn, button {
-    font-size: 1.6rem;
-    padding: 1rem 2rem;
-  }
-
-  input {
-    font-size: 1.5rem;
-    padding: 0.8rem;
-  }
-
-  .game-image-container {
-    height: 220px;
-    width: 100%;
-  }
-
-  .player-name {
-    font-size: 2.4rem;
-  }
-
-  .word-display {
-    font-size: 2.6rem;
-    letter-spacing: 0.3rem;
-  }
-
-  table {
-    font-size: 1.2rem;
-  }
-
-  .game-header {
-    gap: 1rem;
-  }
-
-  .game-header-item {
-    min-width: 80px;
-    font-size: 1.2rem;
-  }
-
-  #cronometro {
-    font-size: 1.5rem;
-  }
-
-  #mensaje {
-    font-size: 1.4rem;
-  }
+  font-size: 1.5rem;
+  padding: 0.8rem;
 }
