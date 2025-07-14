@@ -1,4 +1,4 @@
-export const API_URL = "https://ahorcadotime.vercel.app";
+export const API_URL = "https://tu-proyecto.vercel.app/api";
 
 export async function apiFetch(endpoint, method = "GET", body = null, token = null) {
   const headers = {
