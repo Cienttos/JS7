@@ -3,7 +3,7 @@ export function renderScoreboard(scores, currentUserName) {
     return b.best_score - a.best_score || a.best_time - b.best_time;
   });
 
-  // Generamos el HTML
+  // Esperamos al renderizado del DOM para agregar evento
   setTimeout(() => {
     const downloadButton = document.getElementById("downloadPDF");
     if (downloadButton) {
@@ -30,11 +30,11 @@ export function renderScoreboard(scores, currentUserName) {
         doc.save("scoreboard.pdf");
       });
     }
-  }, 0); // Esperamos a que el DOM se renderice
+  }, 0);
 
   return `
-    <div class="table-scroll sticky-table">
-      <table id="scoreTable" border="1" style="border-collapse: collapse; width: 100%;">
+    <div class="table-scroll">
+      <table id="scoreTable" border="1">
         <thead>
           <tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th></tr>
         </thead>
@@ -54,6 +54,8 @@ export function renderScoreboard(scores, currentUserName) {
         </tbody>
       </table>
     </div>
-    <button id="downloadPDF" style="margin-top: 10px;">Descargar Score</button>
+    <div class="btn-container">
+      <button id="downloadPDF">Descargar Score</button>
+    </div>
   `;
 }
