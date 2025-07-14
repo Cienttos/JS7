@@ -165,21 +165,6 @@ table th, table td {
   user-select: none;
 }
 
-@media (max-width: 600px) {
-  #app {
-    padding: 1rem;
-  }
-
-  input, .btn {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-  }
-
-  table {
-    font-size: 0.9rem;
-  }
-}
-
 .game-container {
   display: flex;
   flex-direction: column;
@@ -256,4 +241,67 @@ table th, table td {
   width: 100%;
   max-width: 300px;
   box-sizing: border-box;
+}
+
+/* ======================= */
+/* ESTILOS RESPONSIVOS */
+/* ======================= */
+@media (max-width: 600px) {
+  html, body {
+    padding: 0.5rem;
+    overflow: auto;
+  }
+
+  #app, #welcome {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2, h3 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .btn, button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  input {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  .game-image-container {
+    height: 160px;
+    width: 100%;
+  }
+
+  .player-name {
+    font-size: 1.4rem;
+  }
+
+  .word-display {
+    font-size: 1.5rem;
+    letter-spacing: 0.2rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  .game-header {
+    gap: 1rem;
+  }
+
+  .game-header-item {
+    min-width: 70px;
+  }
 }
