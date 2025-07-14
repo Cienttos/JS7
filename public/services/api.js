@@ -1,5 +1,5 @@
 // URL base de la API a la que vamos a hacer las peticiones
-export const API_URL = "http://localhost:3000";
+export const API_URL = "https://ahorcadotime.vercel.app/";
 
 // apiFetch facilita hacer peticiones fetch a la API con JSON y token.
 export async function apiFetch(endpoint, method = "GET", body = null, token = null) {
