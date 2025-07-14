@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"> <!-- Indicamos que el idioma del documento es español -->
   <head>
-    <meta charset="UTF-8" />
-    <title>Juego Ahorcado</title>
+    <meta charset="UTF-8" /> <!-- Codificación de caracteres (permite tildes y ñ) -->
+    <title>Juego Ahorcado</title> <!-- Título que aparece en la pestaña del navegador -->
+    
+    <!-- Enlazamos el archivo de estilos globales (CSS) -->
     <link rel="stylesheet" href="./style/globals.css" />
   </head>
   <body>
+    <!-- Contenedor principal de la aplicación. Acá se va a renderizar el juego con JS -->
     <div id="app"></div>
     
+    <!-- Librerías externas para generar PDFs desde JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <script type="module" src="index.js"></script>
     
+    <!-- Archivo principal de JavaScript que inicia la app -->
+    <script type="module" src="index.js"></script>
   </body>
 </html>

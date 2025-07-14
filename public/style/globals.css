@@ -1,46 +1,73 @@
+/* Importamos la fuente "Patrick Hand" desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 
+/* ============================
+   Estilos generales (html, body)
+   ============================ */
 html, body {
-  height: 100vh;
+  height: 100vh; /* altura completa de la ventana */
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Patrick Hand', cursive;
+  font-family: 'Patrick Hand', cursive; /* fuente principal */
   background-color: #fff;
+  /* Fondo con líneas en forma de cuadricula */
   background-image:
     linear-gradient(to right, #d0d0d0 1px, transparent 1px),
     linear-gradient(to bottom, #d0d0d0 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-size: 30px 30px; /* tamaño de las celdas */
   color: #333;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* centrado vertical */
+  justify-content: center; /* centrado horizontal */
   padding: 1rem;
   box-sizing: border-box;
 }
 
+/* ============================
+   Contenedores principales
+   ============================ */
 #app, #welcome {
   max-width: 700px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: rgba(255, 255, 255, 0.95); /* fondo blanco semi-transparente */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* sombra leve */
   padding: 2rem;
   border-radius: 12px;
-  transition: all 0.4s ease;
+  transition: all 0.4s ease; /* para animaciones suaves */
   opacity: 1;
   box-sizing: border-box;
 }
 
+/* ============================
+   Animaciones de fade (entrada/salida)
+   ============================ */
 .app-fade-out {
   opacity: 0;
   transform: scale(0.98);
 }
 
+.form-fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.form-fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================
+   Estilos para la caja de bienvenida
+   ============================ */
 .welcome-box {
   text-align: center;
   margin-bottom: 2rem;
 }
 
+/* ============================
+   Tipografías para títulos y párrafos
+   ============================ */
 h1 {
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
@@ -59,6 +86,9 @@ p {
   margin: 0;
 }
 
+/* ============================
+   Botones y estilos de botones
+   ============================ */
 .btn, button {
   font-family: inherit;
   font-size: 1.1rem;
@@ -73,17 +103,20 @@ p {
   transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
-  user-select: none;
+  user-select: none; /* evita seleccionar el texto */
 }
 
 .btn:hover, button:hover {
   background-color: #ffe28a;
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* efecto de "levantar" */
   box-shadow:
     3px 3px 0 #000,
     -1px -1px 0 #000;
 }
 
+/* ============================
+   Grupo de botones con separación
+   ============================ */
 .button-group {
   display: flex;
   justify-content: center;
@@ -92,6 +125,9 @@ p {
   margin-top: 1.5rem;
 }
 
+/* ============================
+   Inputs y formularios
+   ============================ */
 input {
   font-family: inherit;
   font-size: 1rem;
@@ -111,6 +147,9 @@ form {
   box-sizing: border-box;
 }
 
+/* ============================
+   Contenedor de formulario con altura fija y transición
+   ============================ */
 #formContainer {
   height: 320px;
   min-height: 280px;
@@ -121,19 +160,12 @@ form {
   box-sizing: border-box;
 }
 
-.form-fade-out {
-  opacity: 0;
-  transform: scale(0.97);
-}
-
-.form-fade-in {
-  opacity: 1;
-  transform: scale(1);
-}
-
+/* ============================
+   Tabla con scroll y estilos
+   ============================ */
 .table-scroll {
   max-height: 300px;
-  overflow-y: auto;
+  overflow-y: auto; /* scroll vertical */
   border: 1px solid #ccc;
   border-radius: 8px;
   position: relative;
@@ -156,10 +188,13 @@ table th, table td {
 }
 
 .highlight-row {
-  background-color: #d4edda;
+  background-color: #d4edda; /* color verde claro */
   font-weight: bold;
 }
 
+/* ============================
+   Contenedores para botones
+   ============================ */
 .btn-container {
   display: flex;
   justify-content: center;
@@ -191,6 +226,9 @@ table th, table td {
     -1px -1px 0 #000;
 }
 
+/* ============================
+   Cronómetro y mensajes
+   ============================ */
 #cronometro {
   font-weight: bold;
   color: #0077cc;
@@ -203,6 +241,9 @@ table th, table td {
   user-select: none;
 }
 
+/* ============================
+   Contenedor del juego y encabezado
+   ============================ */
 .game-container {
   display: flex;
   flex-direction: column;
@@ -232,6 +273,9 @@ table th, table td {
   font-weight: bold;
 }
 
+/* ============================
+   Nombre del jugador
+   ============================ */
 .player-name {
   font-size: 1.8rem;
   font-weight: bold;
@@ -241,6 +285,9 @@ table th, table td {
   user-select: none;
 }
 
+/* ============================
+   Contenedor y estilos imagen del ahorcado
+   ============================ */
 .game-image-container {
   height: 200px;
   width: 300px;
@@ -266,6 +313,9 @@ table th, table td {
   transform: scale(1.1);
 }
 
+/* ============================
+   Visualización de palabra y entrada
+   ============================ */
 .word-display {
   font-size: 2rem;
   letter-spacing: 0.4rem;
@@ -281,9 +331,9 @@ table th, table td {
   box-sizing: border-box;
 }
 
-/* ======================= */
-/* ESTILOS RESPONSIVOS */
-/* ======================= */
+/* ============================
+   Estilos para dispositivos móviles (responsive)
+   ============================ */
 @media (max-width: 600px) {
   html, body {
     padding: 0.5rem;

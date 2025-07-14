@@ -87,7 +87,7 @@ async function renderMenu() {
       });
     }
   } catch (e) {
-    // Si falla la llamada, simplemente no iniciamos juego nuevo
+    console.log("Error: "+e)
   }
 
   // Renderizamos el menú, pasando datos y funciones para manejar eventos
