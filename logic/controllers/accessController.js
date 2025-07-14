@@ -1,4 +1,3 @@
-// Importamos librerías necesarias
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import pool from "../../db.js"; // Conexión a la base de datos
@@ -43,13 +42,13 @@ export const register = async (req, res) => {
     // Creamos el token
     const token = jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '1h' });
 
-    // Enviamos el token como cookie y también en el body
-    res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
+    // Enviamos cookie manualmente con header (ya que res.cookie no funciona en Vercel)
+    res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax`);
 
     res.json({
       success: true,
       message: "Usuario registrado con éxito",
-      token, // Enviamos el token también en el body
+      token, // También enviamos el token en el body
     });
   } catch (error) {
     console.error(error);
@@ -86,13 +85,13 @@ export const login = async (req, res) => {
     // Creamos y enviamos el token
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
-    // Enviamos como cookie y en la respuesta
-    res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
+    // Enviar cookie manualmente con header (ya que res.cookie no funciona en Vercel)
+    res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax`);
 
     res.json({
       success: true,
       message: "Ingreso exitoso",
-      token, // Enviamos el token en el JSON
+      token, // También enviamos el token en el body
     });
   } catch (error) {
     console.error(error);
